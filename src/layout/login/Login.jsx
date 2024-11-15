@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Input, Button, Checkbox, Card, Typography, Row, Col, message } from 'antd';
+import { Form, Input, Button, Checkbox, Card, Typography, Row, Col, message, Spin } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useNavigate, Link } from "react-router-dom";
 import axios from 'axios';
@@ -9,6 +9,7 @@ const { Title, Text } = Typography;
 export default function Login() {
     const [listUser, setListUser] = useState([]);
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
     const handleLoadAllUser = async () => {
         try {
@@ -24,31 +25,39 @@ export default function Login() {
     }, []);
 
     const onFinish = async (values) => {
+        setLoading(true);
+
         const { email, password } = values;
 
         if (!email || !password) {
             message.error("Please enter email and password");
+            setLoading(false);
             return;
         }
 
         const user = listUser.find(user => user.email === email);
         if (!user) {
             message.error("Email not found");
+            setLoading(false);
             return;
         }
 
         if (user.password !== password) {
             message.error("Password is incorrect");
+            setLoading(false);
             return;
         }
 
-        localStorage.setItem("userId", user.id);
-        localStorage.setItem("rollNumber", user.rollNumber);
-        localStorage.setItem("role", "student");
-        localStorage.setItem("email", user.email);
+        setTimeout(() => {
+            localStorage.setItem("userId", user.id);
+            localStorage.setItem("rollNumber", user.rollNumber);
+            localStorage.setItem("role", "student");
+            localStorage.setItem("email", user.email);
 
-        message.success("Login successful");
-        navigate("/courses");
+            message.success("Login successful");
+            setLoading(false);
+            navigate("/courses");
+        }, 2000);
     };
 
     return (
@@ -59,7 +68,7 @@ export default function Login() {
         }}>
             <Col xs={24} sm={24} md={16} lg={12} xl={8}>
                 <Card bordered={false}>
-                    <div style={{ textAlign: 'center', marginBottom: 24 }}>
+                    <div className="grid place-items-center mb-8">
                         <img
                             src="https://inbaobigiay.vn/wp-content/uploads/2024/06/logo-fpt-vector-6-1200x900.jpg"
                             style={{ width: '20%' }}
@@ -106,8 +115,13 @@ export default function Login() {
                         </Form.Item>
 
                         <Form.Item>
-                            <Button type="primary" htmlType="submit" block>
-                                Sign In
+                            <Button
+                                type="primary"
+                                htmlType="submit"
+                                block
+                                loading={loading}
+                            >
+                                {loading ? '' : 'Sign In'}
                             </Button>
                         </Form.Item>
 

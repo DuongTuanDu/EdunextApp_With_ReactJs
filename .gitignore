@@ -1,2 +1,22 @@
-node_modules
+# Node.js dependencies
+node_modules/
+
+# Yarn lock file
 yarn.lock
+
+# npm lock file (if using Yarn, you don't need this)
+package-lock.json
+
+# Database file (if local)
+db.json
+
+# Optional: Ignore logs
+*.log
+
+# Optional: Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore build files (if applicable)
+dist/
+build/

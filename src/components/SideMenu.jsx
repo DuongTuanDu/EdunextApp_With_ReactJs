@@ -10,21 +10,23 @@ import LiveHelpIcon from '@mui/icons-material/LiveHelp';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { useNavigate } from "react-router-dom";
+import Tooltip from '@mui/material/Tooltip'; // Import Tooltip
+import { Link, useNavigate } from "react-router-dom";
 
 export default function SideMenu() {
     const [anchorEl, setAnchorEl] = React.useState(null);
-
     const navigate = useNavigate();
     const open = Boolean(anchorEl);
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
+
     const handleClose = () => {
         setAnchorEl(null);
     };
 
-    //handle log out
+    // Handle log out
     const handleLogout = async (e) => {
         try {
             localStorage.removeItem("userId");
@@ -37,23 +39,29 @@ export default function SideMenu() {
     };
 
     return (
-        <aside style={{ width: '250px', float: 'left' }} className="aside-menu">
+        <aside style={{ width: '120px', float: 'left' }} className="">
             <div className="side-menu">
                 <nav>
                     <ul className="ul-side-menu" style={{ padding: '0px' }}>
-                        <div style={{ textAlign: 'center', width: '100%' }}>
-                            <a style={{ textDecoration: 'underline' }}>
-                                <img src="https://inbaobigiay.vn/wp-content/uploads/2024/06/logo-fpt-vector-6-1200x900.jpg" style={{ width: '50%' }} alt="Logo" />
-                            </a>
+                        <div className="flex justify-center" style={{ width: '100%' }}>
+                            <Link to="#" style={{ textDecoration: 'underline' }}>
+                                <img
+                                    src="https://inbaobigiay.vn/wp-content/uploads/2024/06/logo-fpt-vector-6-1200x900.jpg"
+                                    style={{ width: '100%' }}
+                                    alt="Logo"
+                                />
+                            </Link>
                         </div>
                         <li>
-                            <a onClick={handleClick} >
+                            <Link href="#" onClick={handleClick}>
                                 <span>
                                     <div className='logo-side-menu' style={{ textAlign: 'center', fontSize: '0.625rem' }}>
-                                        <AccountCircleIcon style={{ fontSize: '1.5rem' }} />
+                                        <Tooltip title="Account" arrow>
+                                            <AccountCircleIcon style={{ fontSize: '1.5rem' }} />
+                                        </Tooltip>
                                     </div>
                                 </span>
-                            </a>
+                            </Link>
                             <Menu
                                 id="basic-menu"
                                 anchorEl={anchorEl}
@@ -68,62 +76,74 @@ export default function SideMenu() {
                             </Menu>
                         </li>
                         <li>
-                            <a href="/courses">
+                            <Link to="/courses">
                                 <span>
                                     <div className='logo-side-menu' style={{ textAlign: 'center', fontSize: '0.625rem' }}>
-                                        <HomeOutlinedIcon style={{ fontSize: '1.5rem' }} />
+                                        <Tooltip title="Home" arrow>
+                                            <HomeOutlinedIcon style={{ fontSize: '1.5rem' }} />
+                                        </Tooltip>
                                     </div>
                                 </span>
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a href="/assignments">
+                            <Link to="/assignments">
                                 <span>
                                     <div className='logo-side-menu' style={{ textAlign: 'center', fontSize: '0.625rem' }}>
-                                        <AssignmentIcon style={{ fontSize: '1.5rem' }} />
+                                        <Tooltip title="Assignments" arrow>
+                                            <AssignmentIcon style={{ fontSize: '1.5rem' }} />
+                                        </Tooltip>
                                     </div>
                                 </span>
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a href="/slots">
+                            <Link to="/slots">
                                 <span>
                                     <div className='logo-side-menu' style={{ textAlign: 'center', fontSize: '0.625rem' }}>
-                                        <UpcomingIcon style={{ fontSize: '1.5rem' }} />
+                                        <Tooltip title="Slots" arrow>
+                                            <UpcomingIcon style={{ fontSize: '1.5rem' }} />
+                                        </Tooltip>
                                     </div>
                                 </span>
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a href="#">
+                            <Link href="#">
                                 <span>
                                     <div className='logo-side-menu' style={{ textAlign: 'center', fontSize: '0.625rem' }}>
-                                        <PictureAsPdfIcon style={{ fontSize: '1.5rem' }} />
+                                        <Tooltip title="PDF" arrow>
+                                            <PictureAsPdfIcon style={{ fontSize: '1.5rem' }} />
+                                        </Tooltip>
                                     </div>
                                 </span>
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a href="#">
+                            <Link href="#">
                                 <span>
                                     <div className='logo-side-menu' style={{ textAlign: 'center', fontSize: '0.625rem' }}>
-                                        <SupportAgentIcon style={{ fontSize: '1.5rem' }} />
+                                        <Tooltip title="Support" arrow>
+                                            <SupportAgentIcon style={{ fontSize: '1.5rem' }} />
+                                        </Tooltip>
                                     </div>
                                 </span>
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a href="#">
+                            <Link href="#">
                                 <span>
                                     <div className='logo-side-menu' style={{ textAlign: 'center', fontSize: '0.625rem' }}>
-                                        <LiveHelpIcon style={{ fontSize: '1.5rem' }} />
+                                        <Tooltip title="Help" arrow>
+                                            <LiveHelpIcon style={{ fontSize: '1.5rem' }} />
+                                        </Tooltip>
                                     </div>
                                 </span>
-                            </a>
+                            </Link>
                         </li>
                     </ul>
                 </nav>
             </div>
         </aside>
-    )
+    );
 }

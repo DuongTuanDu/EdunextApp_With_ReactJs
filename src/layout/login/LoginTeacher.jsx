@@ -9,6 +9,7 @@ const { Title, Text } = Typography;
 export default function SignInTeacher() {
     const [listUser, setListUser] = useState([]);
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
     const handleLoadAllUser = async () => {
         try {
@@ -24,45 +25,52 @@ export default function SignInTeacher() {
     }, []);
 
     const onFinish = async (values) => {
+        setLoading(true);
         const { email, password } = values;
-        
+
         if (!email || !password) {
             message.error("Please enter email and password");
+            setLoading(false);
             return;
         }
 
         const user = listUser.find(user => user.email === email);
         if (!user) {
             message.error("Email not found");
+            setLoading(false);
             return;
         }
 
         if (user.password !== password) {
             message.error("Password is incorrect");
+            setLoading(false);
             return;
         }
 
-        localStorage.setItem("userId", user.id);
-        localStorage.setItem("rollNumber", user.rollNumber);
-        localStorage.setItem("role", "teacher");
-        localStorage.setItem("email", user.email);
-        
-        message.success("Login successful");
-        navigate("/courses");
+        setTimeout(() => {
+            localStorage.setItem("userId", user.id);
+            localStorage.setItem("rollNumber", user.rollNumber);
+            localStorage.setItem("role", "teacher");
+            localStorage.setItem("email", user.email);
+
+            message.success("Login successful");
+            setLoading(false);
+            navigate("/courses");
+        }, 2000)
     };
 
     return (
-        <Row 
-            justify="center" 
-            align="middle" 
-            style={{ 
+        <Row
+            justify="center"
+            align="middle"
+            style={{
                 minHeight: '100vh',
                 backgroundColor: '#f0f2f5',
                 padding: '24px'
             }}
         >
             <Col xs={24} sm={24} md={16} lg={12} xl={8}>
-                <Card 
+                <Card
                     bordered={false}
                     style={{
                         boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 12px',
@@ -71,15 +79,15 @@ export default function SignInTeacher() {
                     }}
                     hoverable
                 >
-                    <div style={{ textAlign: 'center', marginBottom: 32 }}>
-                        <img 
+                    <div className="grid place-items-center mb-8">
+                        <img
                             src="https://inbaobigiay.vn/wp-content/uploads/2024/06/logo-fpt-vector-6-1200x900.jpg"
-                            style={{ 
+                            style={{
                                 width: '20%',
                                 maxWidth: '250px',
                                 marginBottom: '16px'
-                            }} 
-                            alt="Logo" 
+                            }}
+                            alt="Logo"
                         />
                         <Title level={2} style={{ marginBottom: 8 }}>
                             Teacher Login
@@ -103,8 +111,8 @@ export default function SignInTeacher() {
                                 { type: 'email', message: 'Please enter a valid email!' }
                             ]}
                         >
-                            <Input 
-                                prefix={<UserOutlined className="site-form-item-icon" />} 
+                            <Input
+                                prefix={<UserOutlined className="site-form-item-icon" />}
                                 placeholder="Email Address"
                                 size="large"
                                 style={{ height: '45px', borderRadius: '6px' }}
@@ -130,31 +138,32 @@ export default function SignInTeacher() {
                         </Form.Item>
 
                         <Form.Item>
-                            <Button 
-                                type="primary" 
-                                htmlType="submit" 
+                            <Button
+                                type="primary"
+                                htmlType="submit"
                                 block
                                 size="large"
-                                style={{ 
+                                style={{
                                     height: '45px',
                                     borderRadius: '6px',
                                     fontSize: '16px',
                                     boxShadow: '0 2px 0 rgba(0,0,0,0.045)'
                                 }}
+                                loading={loading}
                             >
-                                Sign In
+                                {loading ? '' : 'Sign In'}
                             </Button>
                         </Form.Item>
 
-                        <Row 
-                            justify="space-between" 
+                        <Row
+                            justify="space-between"
                             align="middle"
                             style={{ marginTop: '24px' }}
                         >
                             <Col>
-                                <Link 
+                                <Link
                                     to="/login"
-                                    style={{ 
+                                    style={{
                                         color: '#1890ff',
                                         fontSize: '14px'
                                     }}
@@ -166,9 +175,9 @@ export default function SignInTeacher() {
                                 <Text type="secondary" style={{ fontSize: '14px' }}>
                                     Don't have an account?{' '}
                                 </Text>
-                                <Link 
+                                <Link
                                     to="/register"
-                                    style={{ 
+                                    style={{
                                         color: '#1890ff',
                                         fontSize: '14px',
                                         fontWeight: 500

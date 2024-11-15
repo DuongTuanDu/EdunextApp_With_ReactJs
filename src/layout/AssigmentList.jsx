@@ -1,12 +1,8 @@
 //import all necessary modules
 import React from 'react';
-import { Button, Grid, Paper, Typography } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import './course/CourseList.css'
 import './Css/Icon.css'
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SideMenu from '../components/SideMenu';
 
