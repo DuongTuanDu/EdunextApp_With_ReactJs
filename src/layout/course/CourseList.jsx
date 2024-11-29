@@ -4,8 +4,6 @@ import { Button, Grid } from '@material-ui/core';
 import './CourseList.css'
 import '../Css/Icon.css'
 import Tab from '@mui/material/Tab';
-import TabContext from '@mui/lab/TabContext';
-import TabPanel from '@mui/lab/TabPanel';
 import Tabs from '@mui/material/Tabs';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -15,6 +13,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import SideMenu from '../../components/SideMenu';
 import axios from 'axios';
 import AddCourseModal from '../../components/Modal/CreateCourseModal';
+import { Card, Empty } from 'antd';
 
 
 function CardItem({ course }) {
@@ -70,7 +69,8 @@ export default function CourseList() {
                 setListCourse(data);
                 return;
             }
-            const data = response.data.filter(course => course.students.includes(localStorage.getItem("userId")));
+            const data = response.data.filter(course => course.teacher_id !== localStorage.getItem("userId"));
+
             console.log(data);
             setListCourse(data);
         } catch (error) {
@@ -105,80 +105,75 @@ export default function CourseList() {
         <div>
             <div className="wrapper">
                 <SideMenu />
-                <div className="main-content">
-                    <div className='site-main' style={{ padding: '20px', flexGrow: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <div className='container'>
-                            <div className='lesson-detail-tab edu-tabs'>
-                                <TabContext value={value}>
-                                    <Tabs
-                                        value={value}
-                                        onChange={handleChange}
-                                        textColor="primary"
-                                        indicatorColor="primary"
-                                        aria-label="secondary tabs example"
-                                        className='edu-tabs-header'
-                                    >
-                                        <Tab value="course" label="Course" />
-                                        <Tab value="project" label="Project" />
-                                    </Tabs>
-                                    <TabPanel value="course" style={{ padding: '0px' }}>
-                                        <Grid container spacing={2}>
-                                            <div className='list-course row' style={{ margin: 'auto' }}>
-                                                <div>
-                                                    <div className="col-md-4 col-sm-6 col-lg-3" style={{ zIndex: '9999', marginBottom: '20px', width: '200px' }}>
-
-                                                        {localStorage.getItem("role") === "teacher" && (
-                                                            <div style={{ paddingBottom: '20px' }}>
-                                                                <Button variant="contained" color="primary" style={{ marginLeft: '10px' }} onClick={handleOpenModal}>
-                                                                    Add new Course
-                                                                </Button>
-                                                            </div>
-                                                        )}
-
-
-
-                                                        <div className='edu-combobox' style={{ unicodeBidi: 'isolate', boxSizing: 'border-box', textAlign: 'start', textSizeAdjust: '100%' }}>
-                                                            <FormControl sx={{ m: 1, minWidth: 200, margin: '0px' }} size="small">
-                                                                <InputLabel id="demo-select-small-label">Age</InputLabel>
-                                                                <Select
-                                                                    labelId="demo-select-small-label"
-                                                                    id="demo-select-small"
-                                                                    value={age}
-                                                                    label="Age"
-                                                                    onChange={handleChangeAge}
-                                                                >
-                                                                    <MenuItem value="">
-                                                                        <em>None</em>
-                                                                    </MenuItem>
-                                                                    <MenuItem value={10}>Ten</MenuItem>
-                                                                    <MenuItem value={20}>Twenty</MenuItem>
-                                                                    <MenuItem value={30}>Thirty</MenuItem>
-                                                                </Select>
-                                                            </FormControl>
+                <div className="mx-auto">
+                    <div className='p-5 grid grid-cols-1 justify-center items-center'>
+                        <div value={value}>
+                            <Tabs
+                                value={value}
+                                onChange={handleChange}
+                                textColor="primary"
+                                indicatorColor="primary"
+                                aria-label="secondary tabs example"
+                                className='edu-tabs-header'
+                            >
+                                <Tab value="course" label="Course" />
+                                <Tab value="project" label="Project" />
+                            </Tabs>
+                            {value === 'course' ? (
+                                <Card value="course" className='shadow-md min-h-screen' style={{ padding: '0px' }}>
+                                    <Grid container spacing={2}>
+                                        <div className='list-course row' style={{ margin: 'auto' }}>
+                                            <div>
+                                                <div className="col-md-4 col-sm-6 col-lg-3" style={{ zIndex: '9999', marginBottom: '20px', width: '200px' }}>
+                                                    {localStorage.getItem("role") === "teacher" && (
+                                                        <div style={{ paddingBottom: '20px' }}>
+                                                            <Button variant="contained" color="primary" style={{ marginLeft: '10px' }} onClick={handleOpenModal}>
+                                                                Add new Course
+                                                            </Button>
                                                         </div>
-                                                    </div>
+                                                    )}
 
-                                                    <div style={{ marginBottom: '10px' }}>
-                                                        <div className="recently mb-2">Recently Updated (Để xem chi tiết về các thay đổi cập nhật gần đây, vui lòng nhấp vào đây)<br />
-                                                        </div>
+                                                    <div className='edu-combobox' style={{ unicodeBidi: 'isolate', boxSizing: 'border-box', textAlign: 'start', textSizeAdjust: '100%' }}>
+                                                        <FormControl sx={{ m: 1, minWidth: 200, margin: '0px' }} size="small">
+                                                            <InputLabel id="demo-select-small-label">SEMESTER</InputLabel>
+                                                            <Select
+                                                                labelId="demo-select-small-label"
+                                                                id="demo-select-small"
+                                                                value={age}
+                                                                label="SEMESTER"
+                                                                onChange={handleChangeAge}
+                                                            >
+                                                                <MenuItem value="">
+                                                                    <em>Trial</em>
+                                                                </MenuItem>
+                                                                <MenuItem value={10}>SPRING2024</MenuItem>
+                                                                <MenuItem value={20}>SUMMER2024</MenuItem>
+                                                                <MenuItem value={30}>FALL2024</MenuItem>
+                                                            </Select>
+                                                        </FormControl>
                                                     </div>
                                                 </div>
-
-                                                {listCourse && listCourse.map((course, index) => (
-                                                    <CardItem key={index} course={course} />
-                                                ))}
-
+                                                <div style={{ marginBottom: '10px' }}>
+                                                    <div className="recently mb-2">Recently Updated (Để xem chi tiết về các thay đổi cập nhật gần đây, vui lòng nhấp vào đây)<br />
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </Grid>
-                                    </TabPanel>
-                                </TabContext>
-                            </div>
+                                            {listCourse && listCourse.map((course, index) => (
+                                                <CardItem key={index} course={course} />
+                                            ))}
+                                        </div>
+                                    </Grid>
+                                </Card>
+                            ) : value === 'project' ? (
+                                <div>
+                                    <Empty description="No data available. Please contact your school administration for more information." />
+                                </div>
+                            ) : null}
                         </div>
                     </div>
                 </div>
             </div >
 
-            {/* Modal Component */}
             <AddCourseModal
                 open={openModal}
                 handleClose={handleCloseModal}

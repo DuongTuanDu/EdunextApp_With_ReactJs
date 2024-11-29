@@ -1,7 +1,7 @@
 // tailwind.config.js
 module.exports = {
     content: [
-      './src/**/*.{js,jsx,ts,tsx}',  // Quét tất cả các tệp JS, JSX, TS, TSX trong thư mục src
+      './src/**/*.{js,jsx,ts,tsx}',
     ],
     theme: {
       extend: {},
